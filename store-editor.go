@@ -21,10 +21,37 @@ const defaultText = `
 <p>
 	Enter HTML here and the vecty syntax will appear opposite.
 </p>
-<p class="foo bar baz" style="foo:bar; baz: qux!important;">
-	<a href="href" id="id" data-foo="bar" foo="bar">Props</a>
-	<input type="checkbox" checked="true" autofocus="true" />
-</p>
+
+<h2>Class attributes</h2>
+<p class="foo bar baz"></p>
+
+<h2>Style attributes</h2>
+<p style="border: 2px; color: red!important;"></p>
+
+<h2>Special properties</h2>
+<input type="checkbox" checked="true" autofocus="true" />
+<a href="href" id="id" data-foo="bar">Props</a>
+
+<h2>An example</h2>
+<div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">x</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 `
 
 func NewEditorStore(app *App) *EditorStore {
