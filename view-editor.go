@@ -19,15 +19,17 @@ type Editor struct {
 	editor   ace.Editor
 	id, lang string
 	change   func(string)
+	readonly bool
 }
 
-func NewEditor(app *App, id, lang, text string, change func(string)) *Editor {
+func NewEditor(app *App, id, lang, text string, readonly bool, change func(string)) *Editor {
 	v := &Editor{
-		app:    app,
-		lang:   lang,
-		id:     id,
-		change: change,
-		Text:   text,
+		app:      app,
+		lang:     lang,
+		id:       id,
+		change:   change,
+		Text:     text,
+		readonly: readonly,
 	}
 	return v
 }
@@ -58,7 +60,7 @@ func (v *Editor) Mount() {
 }
 
 func (v *Editor) Render() vecty.ComponentOrHTML {
-	if v.editor.Object != nil && v.Text != v.editor.GetValue() {
+	if !v.readonly && v.editor.Object != nil && v.Text != v.editor.GetValue() {
 		// only update the editor if the text is changed
 		v.editor.SetValue(v.Text)
 		v.editor.ClearSelection()

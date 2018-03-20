@@ -11,6 +11,7 @@ import (
 
 	"encoding/xml"
 
+	"github.com/aymerick/douceur/parser"
 	"github.com/dave/flux"
 	"github.com/dave/jennifer/jen"
 )
@@ -20,7 +21,7 @@ const defaultText = `
 <p>
 	Enter HTML here and the vecty syntax will appear opposite.
 </p>
-<p class="foo bar baz">
+<p class="foo bar baz" style="foo:bar; baz: qux!important;">
 	<a href="href" id="id" data-foo="bar" foo="bar">Props</a>
 	<input type="checkbox" checked="true" autofocus="true" />
 </p>
@@ -110,6 +111,21 @@ func (s *EditorStore) transcode() error {
 					g.Qual("github.com/gopherjs/vecty", "Markup").CustomFunc(call, func(g *jen.Group) {
 						for _, v := range token.Attr {
 							switch {
+							case v.Name.Local == "style":
+								css, err := parser.ParseDeclarations(v.Value)
+								if err != nil {
+									outer = err
+									return
+								}
+								for _, dec := range css {
+									if dec.Important {
+										dec.Value += "!important"
+									}
+									g.Qual("github.com/gopherjs/vecty", "Style").Call(
+										jen.Lit(dec.Property),
+										jen.Lit(dec.Value),
+									)
+								}
 							case v.Name.Local == "class":
 								g.Qual("github.com/gopherjs/vecty", "Class").CallFunc(func(g *jen.Group) {
 									classes := strings.Split(v.Value, " ")

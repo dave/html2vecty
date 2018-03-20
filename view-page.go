@@ -58,7 +58,7 @@ func (v *Page) renderLeft() *vecty.HTML {
 			prop.ID("left"),
 			vecty.Class("split"),
 		),
-		NewEditor(v.app, "html-editor", "html", v.app.Editor.Html(), func(value string) {
+		NewEditor(v.app, "html-editor", "html", v.app.Editor.Html(), true, func(value string) {
 			v.app.Dispatch(&UserChangedTextAction{
 				Text: value,
 			})
@@ -72,6 +72,6 @@ func (v *Page) renderRight() *vecty.HTML {
 			prop.ID("right"),
 			vecty.Class("split"),
 		),
-		NewEditor(v.app, "code-editor", "golang", v.app.Editor.Code(), nil),
+		NewEditor(v.app, "code-editor", "golang", v.app.Editor.Code(), false, nil),
 	)
 }
