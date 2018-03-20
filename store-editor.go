@@ -207,15 +207,9 @@ func (s *EditorStore) transcode() error {
 			}
 			return q, nil
 		case xml.CharData:
-			s := string(token)
+			s := strings.TrimSpace(string(token))
 			if s == "" {
 				return nil, nil
-			}
-			s = strings.TrimSpace(string(token))
-			if s == "" {
-				// If s != "" && trimspace(s) == "", then s is just composed of spaces and can be replaced
-				// with a single space. (Right?)
-				return jen.Qual("github.com/gopherjs/vecty", "Text").Call(jen.Lit(" ")), nil
 			}
 			return jen.Qual("github.com/gopherjs/vecty", "Text").Call(jen.Lit(s)), nil
 		case xml.EndElement:
