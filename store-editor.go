@@ -175,6 +175,10 @@ func (s *EditorStore) transcode() error {
 								g.Qual("github.com/gopherjs/vecty/prop", stringProps[v.Name.Local]).Call(
 									jen.Lit(v.Value),
 								)
+							case v.Name.Local == "xmlns":
+								g.Qual("github.com/gopherjs/vecty", "Namespace").Call(
+									jen.Lit(v.Value),
+								)
 							case v.Name.Local == "type" && typeProps[v.Value] != "":
 								g.Qual("github.com/gopherjs/vecty/prop", "Type").Call(
 									jen.Qual("github.com/gopherjs/vecty/prop", typeProps[v.Value]),
