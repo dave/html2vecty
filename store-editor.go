@@ -104,12 +104,12 @@ func (s *EditorStore) transcode() error {
 		Open:      "(",
 		Separator: ",",
 	}
-	values := jen.Options{
+	/*values := jen.Options{
 		Close:     "}",
 		Multi:     true,
 		Open:      "{",
 		Separator: ",",
-	}
+	}*/
 
 	var transcode func(*xml.Decoder) (jen.Code, error)
 	transcode = func(decoder *xml.Decoder) (code jen.Code, err error) {
@@ -246,11 +246,37 @@ func (s *EditorStore) transcode() error {
 			elements = append(elements, c)
 		}
 	}
-	if len(elements) == 1 {
+	/*
+		func main() {
+			vecty.RenderBody(&Page{})
+		}
+
+		type Page struct {
+			vecty.Core
+		}
+
+		func (*Page) Render() vecty.ComponentOrHTML {
+			return elem.Body(...)
+		}
+	*/
+	file.Func().Id("main").Params().Block(
+		jen.Qual("github.com/gopherjs/vecty", "RenderBody").Call(
+			jen.Op("&").Id("Page").Values(),
+		),
+	)
+	file.Type().Id("Page").Struct(
+		jen.Qual("github.com/gopherjs/vecty", "Core"),
+	)
+	file.Func().Params(jen.Op("*").Id("Page")).Id("Render").Params().Qual("github.com/gopherjs/vecty", "ComponentOrHTML").Block(
+		jen.Return(
+			jen.Qual("github.com/gopherjs/vecty/elem", "Body").Custom(call, elements...),
+		),
+	)
+	/*if len(elements) == 1 {
 		file.Var().Id("Element").Op("=").Add(elements[0])
 	} else if len(elements) > 1 {
 		file.Var().Id("Elements").Op("=").Index().Op("*").Qual("github.com/gopherjs/vecty", "HTML").Custom(values, elements...)
-	}
+	}*/
 
 	buf := &bytes.Buffer{}
 	if err := file.Render(buf); err != nil {
