@@ -180,7 +180,7 @@ func (s *EditorStore) transcode() error {
 									jen.Qual("github.com/gopherjs/vecty/prop", typeProps[v.Value]),
 								)
 							default:
-								g.Qual("github.com/gopherjs/vecty", "Property").Call(
+								g.Qual("github.com/gopherjs/vecty", "Attribute").Call(
 									jen.Lit(v.Name.Local),
 									jen.Lit(v.Value),
 								)
