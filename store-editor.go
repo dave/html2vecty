@@ -225,6 +225,7 @@ func (s *EditorStore) transcode() error {
 	}
 
 	file := jen.NewFile("main")
+	file.PackageComment("This file was created with https://jsgo.io/dave/html2vecty")
 	file.ImportNames(map[string]string{
 		"github.com/gopherjs/vecty":       "vecty",
 		"github.com/gopherjs/vecty/elem":  "elem",
