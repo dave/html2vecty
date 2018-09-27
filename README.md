@@ -8,3 +8,7 @@ Go source output.
 
 It is compiled and deployed using my [jsgo](https://github.com/dave/jsgo) compiler. You can [compile it 
 here](https://compile.jsgo.io/dave/html2vecty).
+
+#### Command line
+
+If you'd like to use this as a command line app, check out [github.com/AnikHasibul/html2vecty](https://github.com/AnikHasibul/html2vecty).
